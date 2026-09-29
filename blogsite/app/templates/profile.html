@@ -1,0 +1,248 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block page_css %}
+
+<link rel="stylesheet" href="{% static 'style/profile.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+
+{% endblock %}
+
+{% block content %}
+    <!-- TOP NAVBAR -->
+    {% include 'include/navbar.html' %}
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+        {% include 'include/asideleft.html' %}
+
+        <!-- PROFILE CONTENT -->
+        <div class="profile-content">
+
+
+            <!-- COVER IMAGE -->
+            <div class="cover-image-box">
+                {% if profile.cover_image %}
+                     <img src="{{ profile.cover_image.url }}" alt="Cover" class="cover-img">
+                {% else %}
+                     <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=240&fit=crop" alt="Cover" class="cover-img" >
+    
+                {% endif %}
+            </div>
+
+            <!-- PROFILE INFO CARD -->
+            <div class="profile-info-card">
+
+                <!-- AVATAR ROW -->
+                <div class="avatar-row">
+                    <div class="avatar-wrap">
+                        {% if profile.avatar %}
+                            <img src="{{ profile.avatar.url }}" alt="{{ profile.display_name }}" class="profile-avatar">
+                        {% else %}
+                            <img src="https://i.pravatar.cc/100?img=12" alt="Avatar" class="profile-avatar">
+                        {% endif %}
+                    </div>
+
+                    <!-- NAME + ACTIONS -->
+                    <div class="profile-meta">
+                        <div class="profile-name-row">
+                            <div class="profile-name-left">
+                                {% if profile %}
+                                    <h1 class="profile-name">{{ profile.display_name }}
+                                    <span class="verified-badge">
+                                         <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                    </h1>
+                                {% else %}
+                                    <h1 class="profile-name">
+                                    {{ request.user.username }}
+                                    <span class="verified-badge">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </span>
+                                </h1>
+                                {% endif %}
+                                <p class="profile-username">@{{ request.user.username }}</p>
+                            </div>
+                            <div class="profile-actions">
+                                <a  href="{% url 'editprofile' %}"class="edit-profile-btn">
+                                    Edit Profile
+                                </a>
+                                <a href="{% url 'logout' %}"class="logout-profile-btn">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- BIO -->
+                        <p class="profile-bio">
+                        {{ profile.bio}}
+                        </p>
+
+                        <!-- PROFILE DETAILS -->
+                        <div class="profile-details">
+                            <span class="detail-item">
+                                <i class="fa-solid fa-briefcase"></i>
+                                 {{ profile.job_title }}
+                            </span>
+                            <span class="detail-item">
+                                <i class="fa-solid fa-location-dot"></i>
+                                 {{ profile.location }}
+                            </span>
+                            <span class="detail-item link">
+                                <i class="fa-solid fa-globe"></i>
+                                <a href="{{ profile.website }}"></a>
+                
+                            </span>
+                            <span class="detail-item">
+                                <i class="fa-regular fa-calendar"></i>
+                                    {{ request.user.date_joined|date:"F d,Y"}}
+                            </span>
+                        </div>
+
+                        <div class="social-media">
+                            <div class="media-item link">
+                                <a href="{{ profile.linkedin }}" target="_blank">
+                                    <i class="fa-brands fa-linkedin"></i>
+                                </a>
+                            </div>
+                            <span class="media-item link">
+                                 <a href="{{ profile.github }}" target="_blank">
+                                    <i class="fa-brands fa-github"></i>
+                                 </a>
+                            </span>
+                            <div class="media-item link">
+                                <a href="{{ profile.twitter }}" target="_blank">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                
+                            </div>
+                            <span class="media-item link">
+                                <a href="{{ profile.instagram }}">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </span>
+                        </div>
+
+                        <!-- STATS ROW -->
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">{{ post_count }}</span>
+                                <span class="stat-label">Posts</span>
+                            </div>
+                            <!-- <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-number">12.4K</span>
+                                <span class="stat-label">Followers</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <span class="stat-number">356</span>
+                                <span class="stat-label">Following</span>
+                            </div> -->
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- END PROFILE INFO CARD -->
+
+            <!-- PROFILE TABS -->
+            <div class="profile-tabs">
+                <button class="profile-tab publishpost active">Posts</button>
+                <button class="profile-tab savedraft ">Saved Draft</button>
+                <!-- <button class="profile-tab">Likes</button>
+                <button class="profile-tab">About</button> -->
+            </div>
+
+            <!-- POSTS GRID -->
+
+                <!-- Post Card 1 -->
+                 {% if user.is_authenticated %}
+                <div class="posts-grid published-grid">
+                 {% for post in posts %}
+                <div class="post-grid-card">
+                    <a href="{% url 'readingpage' post.slug %}" class="post-grid-image">
+                        <img
+                            src="{{ post.cover_image.url }}"
+                            alt="Building with Purpose"
+                        >
+                    </a>
+                    <div class="post-grid-body">
+                        <h3 class="post-grid-title">{{ post.title }}</h3>
+                        <div class="post-grid-meta">
+                            <span class="post-grid-read">
+                                <i class="fa-solid fa-calendar" style="color: rgb(176, 186, 205);"></i>
+                                {{ post.created_at }}
+                            </span>
+                            <!-- <span class="post-grid-likes">
+                                <i class="fa-solid fa-heart"></i>
+                                1.2K
+                            </span> -->
+                            <div class="more-action-wrapper">
+                                <button type="button" class="more-action-btn">···</button>
+                                <a href="{% url 'deletepost' post.id  %}" class="deletepost">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>You haven't created any posts yet.</p>
+
+                {% endfor %}
+                {% endif %}
+            </div>
+            <!-- END POSTS GRID -->
+
+
+            <!-- saved-draft -->
+
+                {% if user.is_authenticated %}
+                <div class="posts-grid drafts-grid"  style="display:none;">
+                     {% for post in savedraft %}
+                    <div class="post-grid-card">
+                    <a href="{% url 'readingpage' post.slug %}" class="post-grid-image">
+                        <img
+                            src="{{ post.cover_image.url }}"
+                            alt="Building with Purpose"
+                        >
+                    </a>
+                    <div class="post-grid-body">
+                        <h3 class="post-grid-title">{{ post.title }}</h3>
+                        <div class="post-grid-meta">
+                            <span class="post-grid-read">
+                                <i class="fa-solid fa-calendar" style="color: rgb(176, 186, 205);"></i>
+                                {{ post.created_at }}
+                            </span>
+                            <!-- <span class="post-grid-likes">
+                                <i class="fa-solid fa-heart"></i>
+                                1.2K
+                            </span> -->
+                             <div class="more-action-wrapper">
+                                <button type="button" class="more-action-btn">···</button>
+                                <a href="{% url 'deletedraft' post.id  %}" class="deletepost">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>You haven't created any draft yet.</p>
+
+                {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+        <!-- END PROFILE CONTENT -->
+        </div>
+    </div>
+    <!-- END MAIN GRID -->
+{% endblock %}
+
+{% block page_js %}
+<script src="{% static 'javascripts/asideleft.js' %}"></script>
+<script src="{% static 'javascripts/profile.js' %}"></script>
+{% endblock%}

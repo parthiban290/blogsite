@@ -1,0 +1,203 @@
+  {% extends 'index.html' %}
+  {% load static %}
+
+  {% block page_css %}
+
+  <link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+  <link rel="stylesheet" href="{% static 'style/createpost.css' %}"/>
+
+
+  {% endblock %}
+  
+{% block content %}
+  <!-- TOP NAVBAR -->
+    <header class="top-bar">
+        <div class="top-logo">
+            <span class="logo-icon">✦</span>
+            <span class="logo-name">BlogSite</span>
+        </div>
+
+        <div class="top-center">
+            <span class="editing-label">
+                Editing Page
+            </span>
+        </div>
+        <form id="post-form" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+        <div class="top-actions">
+            <button class="save-draft-btn" type="submit" name="action" value="draf" form="post-form">Save Draft</button>
+            <button type="submit" form="post-form"  class="publish-btn" value="publish" name="action">
+                <i class="bx bx-send"></i>
+                Publish
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+        {% include 'include/asideleft.html' %}
+
+        <!-- CENTER EDITOR -->
+        <div class="page-layout">
+            <div class="editor-section">
+
+                <!-- TITLE INPUT -->
+                <div class="title-area">
+                    <input
+                        name="title"
+                        type="text"
+                        class="title-input"
+                        placeholder="Write a captivating title..."
+                    >
+                </div>
+
+                <!-- TOOLBAR -->
+                <div class="toolbar">
+                    <div class="toolbar-left">
+
+                        <div class="toolbar-dropdown">
+                            <span>Paragraph</span>
+                        </div>
+
+                        <!-- <div class="toolbar-divider"></div>
+
+                        <button class="tool-btn" title="Bold">
+                            <i class="bx bx-bold"></i>
+                        </button>
+                        <button class="tool-btn" title="Italic">
+                            <i class="bx bx-italic"></i>
+                        </button>
+                        <button class="tool-btn" title="Code">
+                            <i class="bx bx-code"></i>
+                        </button>
+                        <button class="tool-btn" title="Link">
+                            <i class="bx bx-link"></i>
+                        </button>
+                        <button class="tool-btn" title="Image">
+                            <i class="bx bx-image"></i>
+                        </button>
+                        <button class="tool-btn" title="List">
+                            <i class="bx bx-list-ul"></i>
+                        </button>
+                        <button class="tool-btn" title="Align">
+                            <i class="bx bx-grid-alt"></i>
+                        </button>
+                        <button class="tool-btn" title="More options">
+                            <i class="bx bx-dots-horizontal-rounded"></i>
+                        </button> -->
+
+                    </div>
+                </div>
+
+                <!-- EDITOR CONTENT AREA -->
+                <div
+                    name="content"
+                    class="editor-content"
+                    contenteditable="true"
+                    data-placeholder="Tell your story to the world..."
+                ></div>
+                <input type="hidden" name="content" id="content-input">
+
+                <!-- BOTTOM ROW -->
+                <div class="bottom-row">
+
+                    <!-- COVER IMAGE UPLOAD -->
+                    <div class="cover-image-box">
+                        <div class="cover-upload-area">
+                        <label>
+                            <img id="cover-preview" class="cover-preview" hidden>
+                            <i class="bx bx-image-add cover-upload-icon"></i>
+                            <p class="cover-upload-title">Add cover image</p>
+                            <p class="cover-upload-sub">or drag and drop</p>
+                            <input type="file" name="cover_image" id="cover-image-input" accept="image/*" hidden>
+                        </label>
+                        </div>
+                
+                    </div>
+
+                    <!-- RIGHT PANEL -->
+                    <div class="right-panel">
+
+                        <div class="panel-block">
+                            <input
+                                name="tags"
+                                type="text"
+                                class="tags-input"
+                                placeholder="Add tags (e.g. #django, #webdev)"
+                            >
+                        </div>
+
+                        <div class="panel-block">
+                            <select name="category" class="category-select">
+                                <option value="">Choose a category</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Design">Design</option>
+                                <option value="Business">Business</option>
+                                <option value="Lifestyle">Lifestyle</option>
+                                <option value="Career">Career</option>
+                                <option value="AI">AI</option>
+                            </select>
+                        </div>
+
+                        <div class="panel-block">
+                            <p class="panel-label">Post type</p>
+                            <div class="post-type-grid">
+
+                                <button type="button" name="post_type" value="Article" class="post-type-btn ">
+                                    <i class="bx bxs-check-circle"></i>
+                                    Article
+                                </button>
+
+                                <button type="button" name="post_type" value="Idea" class="post-type-btn">
+                                    <i class="bx bx-heart"></i>
+                                    Idea
+                                </button>
+
+                                <button type="button" name="post_type" value="Question" class="post-type-btn">
+                                    <i class="bx bx-help-circle"></i>
+                                    Question
+                                </button>
+
+                                <button type="button" name="post_type" value="Tutorial" class="post-type-btn">
+                                    <i class="bx bx-book-open"></i>
+                                    Tutorial
+                                </button>
+
+                                <button type="button" name="post_type" value="Project" class="post-type-btn">
+                                    <i class="bx bx-briefcase"></i>
+                                    Project
+                                </button>
+
+                                <button type="button" name="post_type" value="Short Note" class="post-type-btn">
+                                    <i class="bx bx-notepad"></i>
+                                    Short Note
+                                </button>
+                                <input type="hidden" name="post_type" id="post-type-input" value="Article">
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- END RIGHT PANEL -->
+
+                </div>
+                <!-- END BOTTOM ROW -->
+
+            </div>
+            <!-- END EDITOR SECTION -->
+    
+        </div>
+        <!-- END PAGE LAYOUT -->
+    
+    </div>
+    <!-- END MAIN GRID -->
+
+{% endblock %}
+
+{% block page_js %}
+
+<script src="{% static 'javascripts/asideleft.js' %}"></script>
+<script src="{% static 'javascripts/createpost.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block page_css %}
+
+<link rel="stylesheet" href="{% static 'style/explore.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+
+{% endblock %}
+
+{% block content %}
+
+  <!-- TOP NAVBAR -->
+    {% include 'include/navbar.html' %}
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Explore<br>
+                a world of ideas
+            </h1>
+            <p class="hero-desc">
+                Discover stories, creators, and perspectives<br>
+                that inspire you.
+            </p>
+        </div>
+        <div class="hero-bg-shape"></div>
+    </section>
+
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+        {% include 'include/asideleft.html' %}
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- FILTER TABS -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-type="all">All</button>
+            <button class="filter-btn" data-type="Technology">Technology</button>
+            <button class="filter-btn" data-type="Design">Design</button>
+            <button class="filter-btn" data-type="Business">Business</button>
+            <button class="filter-btn" data-type="Lifestyle">Lifestyle</button>
+            <button class="filter-btn" data-type="Career">Career</button>
+            <button class="filter-btn" data-type="AI">AI</button>
+        </div>
+
+        <!-- ARTICLE GRID -->
+        <div class="article-grid">
+            {% for post in explorepost %}
+
+            
+            <!-- Card 1 -->
+        
+            <div class="article-card">
+                    <a href="{% url 'readingpage' post.slug %}" class="card-image" data-type="{{ post.category.name }}" style="display:block">
+                        {% if post.cover_image %}
+                            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}">
+                        {% else %}
+                        <div class="no-cover-image">
+                            No Image
+                        </div>
+                        {% endif %}
+                    </a>
+                <div class="card-body">
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <div class="card-meta">
+                        <span class="category-tag">{{ post.category.name }}</span>
+                        <span class="saved-explore"><a href="{% url 'savepost' post.id %}?next={{ request.path }}"><i class="fa-regular fa-bookmark"></i></a></span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- END GRID -->
+
+    </div>
+    <!-- END MAIN -->
+
+        </div>
+        <!-- end main-grid -->
+
+
+
+{% endblock %}
+
+{% block page_js %}
+
+<script src="{% static 'javascripts/asideleft.js' %}"></script>
+<script src="{% static 'javascripts/explore.js' %}"></script>
+{% endblock %}

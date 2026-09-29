@@ -1,0 +1,83 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block page_css %}
+
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/bookmark.css' %}"/>
+
+{% endblock%}
+
+{% block content %}
+
+{% include 'include/navbar.html' %}
+
+
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+        {% include 'include/asideleft.html' %}
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- FILTER TABS -->
+        <div class="filter-tabs">
+            <button class="filter-btn" data-type="all">All</button>
+            <button class="filter-btn" data-type="Article">Article</button>
+            <button class="filter-btn" data-type="Idea">Idea</button>
+            <button class="filter-btn" data-type="Question">Question</button>
+            <button class="filter-btn" data-type="Tutorial">Tutorial</button>
+            <button class="filter-btn" data-type="Project">Project</button>
+            <button class="filter-btn" data-type="Short Note">Short Note</button>
+        </div>
+
+         <!-- PAGE BODY -->
+            <div class="page-body">
+
+                <!-- PAGE TITLE -->
+                <h1 class="page-title">Saved Stories</h1>
+
+                <!-- STORIES GRID -->
+                <div class="stories-grid">
+                     {% for saved in savedpost %}
+                    <!-- Card 1 -->
+                    <div class="story-card" style="text-decoration: none;"
+                        data-type="{{ saved.post.post_type.name }}">
+                        <a href="{% url 'readingpage' saved.post.slug %}" class="card-image" style="display:block">
+                            <img
+                                src="{{ saved.post.cover_image.url }}"
+                                alt="{{ saved.post.title }}"
+                            >
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ saved.post.title }}</h3>
+                            <div class="card-meta">
+                                <!-- <i class="bx bx-time-five meta-icon"></i> -->
+                                <span class="category-tag">{{ saved.post.post_type.name }}</span>
+                                <button type="button" class="more-action-btn">···</button>
+                                <a href="{% url 'savedremove' saved.post.id %}" class="deletepost" style="text-decoration: none;">Remove</a>
+                            </div>
+                        </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <!-- END STORIES GRID -->
+
+            </div>
+            <!-- END PAGE BODY -->
+
+    </div>
+    <!-- END MAIN -->
+
+        </div>
+        <!-- end main-grid -->
+
+{% endblock%}
+
+{% block page_js %}
+
+<script src="{% static 'javascripts/asideleft.js' %}"></script>
+<script src="{% static 'javascripts/bookmark.js' %}"></script>
+{% endblock %}

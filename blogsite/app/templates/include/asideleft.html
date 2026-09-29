@@ -1,0 +1,44 @@
+
+<!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+
+                <a href="{% url 'homepage' %}" class="nav-item active">
+                    <span class="nav-icon">
+                        <i class="fa-solid fa-house"></i>
+                    </span>
+                    <span>Home</span>
+                </a>
+
+                <a href="{% url 'explore' %}" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-regular fa-compass"></i>
+                    </span>
+                    <span>Explore</span>
+                </a>
+
+                <a href="{% url 'bookmark' %}" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </span>
+                    <span>Bookmarks</span>
+                </a>
+
+                <a href="{% url 'profile' %}" class="nav-item">
+                    <span class="nav-icon">
+                        <i class="fa-regular fa-user"></i>
+                    </span>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+
+            <a href="{% url 'createpost' %}" class="write-btn">
+                <i class="fa-solid fa-pencil"></i>
+                <span>Write</span>
+            </a>
+
+            <div class="sidebar-quote">
+                <p>Ideas change everything</p>
+            </div>
+        </aside>

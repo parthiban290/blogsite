@@ -1,0 +1,144 @@
+{% extends 'index.html'%}
+{% load static %}
+ 
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'style/home.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+
+{% endblock %}
+
+{% block content %}
+
+{% include "include/navbar.html" %}
+
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+        {% include "include/asideleft.html" %}
+
+        <!-- main -->
+
+        
+        <main class="feed">
+
+            <!-- FEED TABS -->
+            <div class="feed-tabs">
+                <button class="tab active">For you</button>
+                <!-- <button class="tab">Following</button>
+                <button class="tab">Trending</button> -->
+            </div>
+            {% for post in posts %}
+            <!-- POST CARD 1 -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-author">
+                        {% if post.author.profile.avatar %}
+                            <img src="{{ post.author.profile.avatar.url }}"
+                                alt="{{ post.author.username }}"
+                                        class="author-avatar">
+                        {% else %}
+                            <img src="/static/images/default-avatar.png"
+                                alt="{{ post.author.username }}"
+                                class="author-avatar">
+                        {% endif %}
+                        <div class="author-info">
+                            <span class="author-name">{{ post.author.username }}</span>
+                            <span class="author-meta">{{ post.author.profile.job_title }}</span>
+                        </div>
+                        <span class="post-time">{{ post.created_at|timesince }}</span>
+                    </div>
+                    <!-- <button class="more-btn">⋯</button> -->
+                </div>
+                <a href="{% url 'readingpage' post.slug %}" class="post-body-link" style="text-decoration: none;">
+                <div class="post-body">
+                    <div class="post-text">
+                        <h2 class="post-title">{{ post.title}}</h2>
+                        <p class="post-desc">{{ post.content|striptags|truncatewords:30  }}</p>
+                    </div>
+                    <div class="post-image">
+                        <img src="{{ post.cover_image.url }}" alt="Mountain landscape">
+                    </div>
+                </div>
+                </a>
+                <div class="post-tags">
+                    {% for tag in post.tags.all %}
+                    <span class="tag">#{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="post-actions">
+                    <div class="action-left">
+                        <button class="action-btn save-btn">
+                            <a href="{% url 'savepost' post.id %}?next={{ request.path }}"><i class="fa-regular fa-bookmark"></i></a>
+                            <span>Save</span>
+                        </button>
+                    </div>
+                    <!-- <button class="more-action-btn">···</button> -->
+                </div>
+            </div>
+            {% endfor %}
+        </main>
+
+        <!-- end main -->
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="right-sidebar">
+
+ <!-- TRENDING TOPICS -->
+            <div class="widget">
+                <h3 class="widget-title"><span><i class="fa-solid fa-fire" style="color: rgb(236, 70, 11);"></i></span> Trending Topics</h3>
+                <ul class="trending-list">
+                    {% for tag in trending_tags %}
+                    <li class="trending-item">
+                        <div class="trend-icon django"><i class="fa-solid fa-tag" style="color:#6c47ff;"></i></div>
+                        <div class="trend-info">
+                            <span class="trend-tag">#{{ tag.name }}</span>
+                            <span class="trend-count">{{ tag.post_count }} posts</span>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- WHO TO FOLLOW -->
+            <div class="widget">
+                <h3 class="widget-title">Who to follow</h3>
+                <ul class="follow-list">
+                    {% for user in suggested_users %}
+                    <li class="follow-item">
+                        {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"class="follow-avatar">
+                        {% else %}
+                            <img src="../static/image/default-avatar.png" alt="{{ user.username }}" class="follow-avatar">
+                        {% endif %}
+                        <div class="follow-info">
+                            <span class="follow-name">{{ user.profile.display_name }}</span>
+                            <span class="follow-role">{{  user.profile.job_title }}</span>
+                        </div>
+                        <!-- <button class="follow-btn">Follow</button> -->
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!-- <a href="#" class="view-more">View more</a> -->
+            </div>
+            
+
+
+        </aside>
+        <!-- END RIGHT SIDEBAR -->
+
+    </div>
+    <!-- END MAIN GRID -->
+
+
+{% endblock %}
+
+{% block page_js %}
+
+<script src="{% static 'javascripts/asideleft.js' %}"></script>
+
+{% endblock %}
+

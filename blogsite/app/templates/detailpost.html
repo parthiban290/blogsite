@@ -1,0 +1,177 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block page_css %}
+
+<link rel="stylesheet" href="{% static 'style/detailpost.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'include/navbar.html' %}
+
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+        {% include 'include/asideleft.html' %}
+
+        <!-- CENTER: ARTICLE -->
+        <div class="page-wrapper">
+            <article class="article-container">
+
+                <!-- ARTICLE META TOP -->
+                <div class="article-top-meta">
+                    <span class="category-tag">{{ post.category.name }}</span>
+                </div>
+
+                <!-- ARTICLE TITLE -->
+                <h1 class="article-title">
+                    {{ post.title }}
+                </h1>
+
+                <!-- AUTHOR ROW -->
+                <div class="author-row">
+                    <div class="author-left">
+                        {% if post.author.profile.avatar %}
+                            <img src="{{ post.author.profile.avatar.url }}" alt="{{ post.author.username }}" class="author-avatar">
+                        {% else %}
+                            <img src="/static/images/default-avatar.png" alt="{{ post.author.username }}" class="author-avatar">
+                        {% endif %}
+                        <div class="author-info">
+                            <span class="author-name">{{ post.author.profile.display_name }}</span>
+                            <span class="author-role">{{ post.author.profile.job_title }}</span>
+                        </div>
+                    </div>
+                    <div class="author-right">
+                        <span class="publish-date">{{ post.created_at|date:"F d, Y" }}</span>
+                    </div>
+                </div>
+
+                <!-- HERO IMAGE -->
+                <div class="article-hero-image">
+                    <img
+                        src="{{ post.cover_image.url }}"
+                        alt="{{ post.title }}"
+                    >
+                </div>
+
+                <!-- ARTICLE BODY -->
+                <div class="article-body">
+                    <p class="article-para">
+                       {{ post.content|striptags }}
+                    </p>
+
+                </div>
+
+                <!-- ARTICLE FOOTER ACTIONS -->
+                <div class="article-footer">
+                    <div class="footer-left">
+                        <!-- <button class="footer-btn liked">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>342</span>
+                        </button>
+                        <button class="footer-btn">
+                            <i class="fa-regular fa-comment"></i>
+                            <span>28</span>
+                        </button> -->
+                        <a href="{% url 'savepost' post.id %}" class="footer-btn" style="text-decoration: none;">
+                            <i class="fa-regular fa-bookmark"></i>
+                            <span>Save</span>
+                        </a>
+                    </div>
+                    <!-- <div class="footer-right">
+                        <button class="footer-btn">
+                            <i class="fa-solid fa-share-nodes"></i>
+                            <span>Share</span>
+                        </button>
+                        <button class="footer-icon-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </div> -->
+                </div>
+
+            </article>
+        </div>
+        <!-- END CENTER -->
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="right-sidebar">
+
+            <!-- SUGGESTED POST CARD -->
+            <div class="section-label">More to read</div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-author">
+                        <img
+                            src="https://i.pravatar.cc/36?img=47"
+                            alt="Sarah Kim"
+                            class="post-avatar"
+                        >
+                        <div class="post-author-info">
+                            <span class="post-author-name">Sarah Kim</span>
+                            <span class="post-author-meta">Developer · Writer</span>
+                        </div>
+                    </div>
+                    <button class="more-btn">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                </div>
+
+                <div class="post-body">
+                    <div class="post-text">
+                        <h3 class="post-title">Small Habits, Big Progress</h3>
+                        <p class="post-desc">
+                            How consistent actions can transform your
+                            career and life. Lessons I learned as a developer.
+                        </p>
+                    </div>
+                    <div class="post-thumb">
+                        <img
+                            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=160&h=110&fit=crop"
+                            alt="Mountain landscape"
+                        >
+                    </div>
+                </div>
+
+                <div class="post-tags">
+                    <span class="tag">#Productivity</span>
+                    <span class="tag">#Career</span>
+                    <span class="tag">#Mindset</span>
+                </div>
+
+                <!-- <div class="post-actions">
+                    <div class="action-left">
+                        <button class="action-btn">
+                            <i class="fa-regular fa-heart heart-red"></i>
+                            <span>1.2K</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fa-regular fa-comment"></i>
+                            <span>124</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fa-regular fa-bookmark"></i>
+                            <span>Save</span>
+                        </button>
+                    </div>
+                    <button class="more-dots-btn">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </button>
+                </div> -->
+            </div>
+
+
+            
+
+
+        </aside>
+        <!-- END RIGHT SIDEBAR -->
+
+    </div>
+
+{% endblock %}

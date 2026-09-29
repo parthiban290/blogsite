@@ -1,0 +1,327 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block page_css %}
+
+<link rel="stylesheet" href="{% static 'style/edit-profile.css' %}">
+<link rel="stylesheet" href="{% static 'style/navbar.css' %}"/>
+<link rel="stylesheet" href="{% static 'style/asideleft.css' %}"/>
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- TOP NAVBAR -->
+    {% include 'include/navbar.html' %}
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+        <!-- LEFT SIDEBAR -->
+       {% include 'include/asideleft.html' %}
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+
+
+            <!-- EDIT PROFILE FORM -->
+            <div class="edit-profile-area">
+
+                <!-- PAGE HEADING -->
+                <div class="page-heading">
+                    <h1 class="page-title">Edit Profile</h1>
+                    <p class="page-sub">Update your personal information and public profile.</p>
+                </div>
+
+                <!-- COVER IMAGE SECTION -->
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-section">
+                    <div class="cover-image-wrapper">
+                        <div class="cover-image-box">
+                            {% if profile.cover_image %}
+                             <img src="{{ profile.cover_image.url }}" alt="Cover" class="cover-img">
+                            {% else %}
+                                <img
+                                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=200&fit=crop"
+                                alt="Cover"
+                                class="cover-img">
+                            {% endif %}
+                            <label class="cover-edit-btn">
+                                <i class="fa-solid fa-camera"></i>
+                                Change Cover
+                                <p class="image-hint">1200 × 400</p>
+                                <input type="file" name="cover_image" hidden>
+                            </label>
+                        </div>
+
+                        <!-- AVATAR OVER COVER -->
+                        <div class="avatar-wrapper">
+                            {% if profile.avatar %}
+                                  <img src="{{ profile.avatar.url }}" alt="Avatar" class="profile-avatar">
+                            {% else %}
+                                <img
+                                src="https://i.pravatar.cc/100?img=12"
+                                alt="Avatar"
+                                class="profile-avatar">
+                            {% endif %}
+                            <label class="avatar-edit-btn">
+                                <i class="fa-solid fa-camera"></i>
+                                 <input type="file" name="avatar" hidden value="500*400">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORM CARD -->
+                <div class="form-card">
+
+                    <!-- BASIC INFO -->
+                    <div class="form-section-title">
+                        <i class="fa-regular fa-id-card section-icon"></i>
+                        Basic Information
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label class="form-label">
+                                Display Name
+                                <span class="required">*</span>
+                            </label>
+                            <input
+                                name="display_name"
+                                type="text"
+                                class="form-input"
+                                placeholder="{{ profile.display_name }}"
+                                value="{{ profile.display_name }}"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix">@</span>
+                                <input
+                                    type="text"
+                                    class="form-input with-prefix"
+                                    placeholder="{{ request.user.username }}"
+                                    value="{{ request.user.username }}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full">
+                            <label class="form-label">Bio</label>
+                            <textarea
+                                name="bio"
+                                class="form-textarea"
+                                placeholder="Write a short bio about yourself..."
+                                rows="3"
+                            > </textarea>
+                            <span class="char-count">0 / 100</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-briefcase input-label-icon"></i>
+                                Job Title
+                            </label>
+                            <input
+                                name="job_title"
+                                type="text"
+                                class="form-input"
+                                placeholder="e.g. Software Engineer"
+                                value="{{ profile.job_title }}"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-regular fa-building input-label-icon"></i>
+                                Company
+                            </label>
+                            <input
+                                name="company"
+                                type="text"
+                                class="form-input"
+                                placeholder="e.g. Inkspire Inc."
+                                value="{{ profile.company }}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-location-dot input-label-icon"></i>
+                                Location
+                            </label>
+                            <input
+                                name="location"
+                                type="text"
+                                class="form-input"
+                                placeholder="e.g. San Francisco, CA"
+                                value="{{ profile.location }}"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-solid fa-globe input-label-icon"></i>
+                                Website
+                            </label>
+                            <input
+                                name="website"
+                                type="url"
+                                class="form-input"
+                                placeholder="https://yourwebsite.com"
+                                value="{{ profile.website }}"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- DIVIDER -->
+                    <div class="section-divider"></div>
+
+                    <!-- SOCIAL LINKS -->
+                    <div class="form-section-title">
+                        <i class="fa-solid fa-share-nodes section-icon"></i>
+                        Social Links
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-brands fa-github input-label-icon"></i>
+                                GitHub
+                            </label>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix small">github.com/</span>
+                                <input
+                                    name="github"
+                                    type="text"
+                                    class="form-input with-prefix-sm"
+                                    placeholder="username"
+                                    value="{{ profile.github }}"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-brands fa-linkedin input-label-icon linkedin"></i>
+                                LinkedIn
+                            </label>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix small">linkedin.com/in/</span>
+                                <input
+                                    name="linkedin"
+                                    type="text"
+                                    class="form-input with-prefix-sm"
+                                    placeholder="username"
+                                    value="{{ profile.linkedin }}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-brands fa-x-twitter input-label-icon"></i>
+                                Twitter / X
+                            </label>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix small">x.com/</span>
+                                <input
+                                    name="twitter"
+                                    type="text"
+                                    class="form-input with-prefix-sm"
+                                    placeholder="username"
+                                    value="{{ profile.twitter }}"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fa-brands fa-instagram input-label-icon instagram"></i>
+                                Instagram
+                            </label>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix small">instagram.com/</span>
+                                <input
+                                    name="instagram"
+                                    type="text"
+                                    class="form-input with-prefix-sm"
+                                    placeholder="username"
+                                    value="{{ profile.instagram }}"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DIVIDER -->
+                    <div class="section-divider"></div>
+
+                    <!-- TIMESTAMPS -->
+                    <div class="form-section-title">
+                        <i class="fa-regular fa-clock section-icon"></i>
+                        Account Info
+                    </div>
+
+                    <div class="form-row two-col">
+                        <div class="form-group">
+                            <label class="form-label">Member Since</label>
+                            <input
+                                name="create_at"
+                                type="text"
+                                class="form-input readonly"
+                                value="{{ profile.create_at|date:'F d,Y'}}"
+                                readonly
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Updated</label>
+                            <input
+                                name="updated_at"
+                                type="text"
+                                class="form-input readonly"
+                                value="{{ profile.updated_at }}"
+                                readonly
+                            >
+                        </div>
+                    </div>
+
+                    <!-- FORM ACTIONS -->
+                    <div class="form-actions">
+                        <a href="{% url 'profile' %}"class="cancel-btn">
+                            Cancel
+                        </a>
+                        <button type="submit" class="save-btn">
+                            <i class="fa-solid fa-check"></i>
+                            Save Changes
+                        </button>
+                    </div>
+
+                </div>
+                <!-- END FORM CARD -->
+
+            </div>
+            <!-- END EDIT PROFILE AREA -->
+        </form>
+
+        </main>
+        <!-- END MAIN CONTENT -->
+
+    </div>
+    <!-- END MAIN GRID -->
+
+{% endblock %}
+
+{% block page_js %}
+
+<script src="{% static 'javascripts/asideleft.js' %}"></script>
+<script src="{% static 'javascripts/editprofile.js' %}"></script>
+
+{% endblock %}
