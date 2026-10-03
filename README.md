@@ -111,7 +111,7 @@ You can add screenshots here:
 ## 📸 Project Screenshots
 
 ### Home Page
-![Home Page](screenshots/home.png)
+![Home Page](screenshots/homepage.png)
 
 ### Blog Post
 ![Blog Post](screenshots/post.png)
