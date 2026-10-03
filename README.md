@@ -28,7 +28,12 @@ Database
 Tools
 - Git
 - GitHub
-🏗️ Project Structure
+
+## 📁 Project Structure
+
+A simplified structure of the project:
+
+```text
 Django-Blog/
 │
 ├── blog/
@@ -38,6 +43,7 @@ Django-Blog/
 ├── manage.py
 ├── requirements.txt
 └── README.md
+```
 
 Adjust the structure based on your actual GitHub repository.
 
